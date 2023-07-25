@@ -81,6 +81,57 @@ pragma solidity 0.8.18;
      
  }
 
+// // SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+// contract Contract1 {
+//     uint public value;
+
+//     function setValue(uint _value) external {
+//         value = _value;
+//     }
+    
+//     function getValue() external view returns (uint) {
+//         return value;
+//     }
+// }
+
+// contract Contract2 {
+//     Contract1 public contract1Instance;
+    
+//     constructor(address _contract1Address) {
+//         contract1Instance = Contract1(_contract1Address);
+//     }
+    
+//     function callExternalFunction(uint _newValue) external {
+//         contract1Instance.setValue(_newValue);
+//     }
+    
+//     function getExternalValue() external view returns (uint) {
+//         return contract1Instance.getValue();
+//     }
+// }
+
+// contract Mymap{
+
+//     // mapping (address => string) public Greeting;
+//     // function _greet(string memory MSG) public{
+//     //    Greeting[msg.sender]= MSG; 
+//     // }
+
+//     //    mapping(address => uint) public compute;
+//     //         function calcul(uint a) public {
+//     //             compute[msg.sender]= a;
+//     //         }
+        
+//     string  public Name =" Mani";
+    
+//     mapping (string => string) public Caller;
+//     function _callername(string memory _newName)public {
+//         Caller[Name]=_newName;
+//     }
+// }
+
 
 
 
