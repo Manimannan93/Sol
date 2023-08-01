@@ -33,28 +33,44 @@ contract Whitelist {
         _;
     }   
 
-    modifier onlyWhiteLister(){
+    modifier onlyWhiteLister(address _userAccount){
         require(whiteList1[msg.sender] ,"Caller should be in Whitelist");
+        require(!whiteList1[ _userAccount]," The whitelist is removed");
         _;
     }
 
-    function setValue (address _account, uint8 _ticketNumber, uint8 _Age, string memory _Name) public onlyWhiteLister {
+    modifier 
+
+    function setValue (address _userAccount, uint8 _ticketNumber, uint8 _Age, string memory _Name) public onlyWhiteLister (_userAccount) {
         Bookedslot++;
-        require(Bookedslot<=Limitedslot);
-        BookedInfo[_account]=TicketInfo( _ticketNumber, _Age, _Name,  _account);
+        require(Bookedslot<=Limitedslot,"The tickets are sold");
+        BookedInfo[_userAccount]=TicketInfo( _ticketNumber, _Age, _Name,  _userAccount);
 
     }
 
-    function setwhiteList (address _account) public onlyWhiteLister{
-        whiteList1[_account]= true;
+    function setwhiteList (address _userAccount) public onlyWhiteLister(_userAccount){
+        whiteList1[_userAccount]= true;
         whitelistCount++;
     }
 
-    function setblackList (address _account) public onlyWhiteLister{
-        blackList1[_account]=true;
+    function setblackList (address _userAccount) public onlyWhiteLister(_userAccount){
+        blackList1[_userAccount]=true;
         blacklistCount++;
         
     }
+
+    function removeWhitelist(address _userAccount) public  onlyWhiteLister(_userAccount){
+        require(whiteList1[_userAccount]," The Whitelist account is removed");
+        whiteList1[_userAccount] = false;
+        whitelistCount--;
+
+        
+    }
+
+    function removeBlacklist(address _userAccount) public  onlyWhiteLister(_userAccount){
+        require(blackList1[_userAccount]," The Blacklist account is removed");
+       blackList1[_userAccount] = false;
+    
 
 
 
@@ -69,7 +85,7 @@ contract derivedList is Whitelist{
 // }
 
 
-function Remove (address _Account) public onlyWhiteLister{
+function Remove (address _Account) public onlyWhiteLister(_Account){
     delete BookedInfo[_Account];
     Bookedslot--;
 
