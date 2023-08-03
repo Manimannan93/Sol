@@ -30,8 +30,9 @@ struct Ticketinfo {
     mapping (uint8=>bool)internal  whiteList1;
     mapping (uint8=>bool)internal  blackList1;
 
-    uint8[] whiteList1Array;
-    uint8[] blackList1Array;
+    uint8[] public participantData;
+    uint8[]public whiteList1Array;
+    uint8[]public blackList1Array;
 
 
     modifier onlyOwner {
@@ -56,6 +57,7 @@ struct Ticketinfo {
     }
 
     function setWhiteList(uint8 _ticketNumber) public onlyOwner {
+        require(!blackList1[_ticketNumber],"It is in the Blacklist");
         whiteList1[_ticketNumber]=true;
         whitelistCount++;
         whiteList1Array.push(_ticketNumber); // Pushing value inside to the array
@@ -63,9 +65,19 @@ struct Ticketinfo {
 
     function setBlackList(uint8 _ticketNumber) public onlyOwner{
 
+        require(!whiteList1[_ticketNumber],"it is in the Whitelist");
+
         blackList1[_ticketNumber]= true;
         blacklistCount++;
         blackList1Array.push(_ticketNumber);
+    }
+
+    function isWhitelisted(uint8 _ticketNumber) public view returns(bool){
+        return whiteList1[_ticketNumber];
+    }
+
+    function isBlacklisted(uint8 _ticketNumber) public view returns(bool){
+        return blackList1[_ticketNumber];
     }
 }
 
@@ -77,9 +89,41 @@ struct Ticketinfo {
 
       }
 
+      function dataStorage() internal  {
+
+          for(uint i =0; i<participantData.length; i++){
+              if(isWhitelisted(participantData[i])){
+                  whiteList1Array.push(participantData[i]);
+              }
+                  else {
+                      blackList1Array.push(participantData[i]);
+                  }
+
+                  }
+      }
+
+      function getWhitelist() public view returns(uint8 [] memory){
+          return whiteList1Array;
+      }
+      function getBlacklist()public view returns(uint8 [] memory){
+          return blackList1Array;
+      }
+      }
+          
+
+              
+          
+    
+
       
 
-      }
+      
+
+
+
+
+
+      
  
 
 
