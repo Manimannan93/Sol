@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity ^0.8.18;
 
 contract Foodmenu{
 
@@ -11,37 +11,52 @@ contract Foodmenu{
 
 
     struct Menu{
-    string item;
-    uint8 price;
-
+        string item;
+        uint8 price;
+    }
+    struct Food{
+        string food;
     }
 
-    constructor () {
 
+    constructor () {
         owner=msg.sender;
     }
 
     mapping (string => mapping(string=> Menu)) public foodOrdered;
     mapping (string =>Menu) public totalOrdered;
 
+
+
+    string[] public Monday;
+    string[] Tuesday;
+    string[] Wednesday; 
+
     function setMenu (string memory _Name, string memory _Day, string memory _Item, uint8 _Price) public {
-        totalNoFood++;
+        totalNoFood++; 
         foodOrdered[_Name][_Day] = Menu(_Item, _Price);
         totalOrdered[_Day]= Menu(_Item,_Price);
-        
-    }
-
-    function getMenu (string memory _Name, string memory _Day) public view returns(Menu memory) {
+        if (keccak256(abi.encodePacked(_Day)) == keccak256(abi.encodePacked("Monday"))){
+            Monday.push(_Item);
+        }
+        if(keccak256(abi.encodePacked(_Day))== keccak256(abi.encodePacked("Tuesday"))){
+            Tuesday.push(_Item);
+        }
+     
+        }
+    function getOrdered(string memory _Name, string memory _Day) public view  returns(Menu memory) {
 
         return foodOrdered[_Name][_Day]; //always use keyvalue to get the value in the program.
 
-    }
+     }
 
-    function getTotal (string memory _Name, string memory _Day) public view returns (Menu memory){
-        return totalOrdered [_Name][_Day];
+    // function getTotal (string memory _Day) public view returns (Menu memory){
+    //     return totalOrdered[_Day];
 
     }   
+
+        
+    
     
 
     
-}
